@@ -43,9 +43,9 @@
 	/**
 	 * Resuelve una expresión aritmética.
 	 * 
-	 * @param  {String} exp  Expresión aritmética a resolver
-	 * @param  {Object} vars Variables a sustituir en la expresión
-	 * @return {Number}      Resultado de la expresión
+	 * @param  {String}       exp  Expresión aritmética a resolver
+	 * @param  {Object}       vars Variables a sustituir en la expresión
+	 * @return {Number|false}      Resultado de la expresión o false cuando ocurrió un error
 	 */
 	Calc.prototype.solve = function(exp, vars) {
 
@@ -67,14 +67,14 @@
 				return result;
 
 			} else {
-				return undefined;
+				return false;
 			}
 
 		} catch(e) {
 
-			this.error = { cod: 'execution-error', desc: e };
+			this.error = { code: 'execution-error', message: e };
 			this._console( 'execution-error', this.error );
-			return undefined;
+			return false;
 
 		}
 	};
@@ -145,7 +145,7 @@
 
 		} catch(e) {
 
-			this.error = {cod:e[0], desc:e[1]};
+			this.error = {code: e[0], message: e[1]};
 			this._console('syntax-error', this.error);
 			return false;
 
@@ -780,8 +780,8 @@
 	/**
 	 * Identifica y opera ordenadamente (por segmentos) la expresión.
 	 * 
-	 * @param  {String} exp Expresión aritmética a resolver
-	 * @return {Number}     Resultado de la expresión
+	 * @param  {String} exp   Expresión aritmética a resolver
+	 * @return {Number|false} Resultado de la expresión o false cuando ocurrió un error
 	 */
 	Calc.prototype._solveExpresion = function() {
 
@@ -831,9 +831,9 @@
 			// Opera la expresión simple
 			simpleExp = this._solveSimpleExpresion(simpleExp)
 
-			// Si el resultado de la expresión simple es undefined, finaliza la operación
-			if (simpleExp == undefined) {
-				return undefined;
+			// Si el resultado de la expresión simple es false, finaliza la operación
+			if (simpleExp === false) {
+				return false;
 			}
 
 			// Concatena nuevamente la expresión con el segmento de expresión simple resuelto
@@ -860,8 +860,8 @@
 	/**
 	 * Opera una expresión simple (sin paréntesis).
 	 * 
-	 * @param  {String} exp Expresión aritmética a resolver
-	 * @return {Number}     Resultado de la expresión
+	 * @param  {String}       exp Expresión aritmética a resolver
+	 * @return {Number|false}     Resultado de la expresión o false cuando ocurrió un error
 	 */
 	Calc.prototype._solveSimpleExpresion = function(exp) {
 
@@ -1200,6 +1200,15 @@
 		// Remueve llaves del resultado
 		exp = exp.replace('{', '');
 		exp = exp.replace('}', '');
+
+		// Verifica si el valor resultante es una variable
+		if (isNaN(Number(exp))) {
+			if (this._getVar(exp) == undefined) {
+				throw 'Variable "' + exp +'" no reconocida';
+			} else {
+				exp = this._getVar(exp);
+			}
+		}
 
 		// Reducción final de operadores
 		exp = this._operatorsReduction(exp);
