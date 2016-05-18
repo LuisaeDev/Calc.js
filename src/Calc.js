@@ -1201,6 +1201,15 @@
 		exp = exp.replace('{', '');
 		exp = exp.replace('}', '');
 
+		// Verifica si el valor resultante es una variable
+		if (isNaN(Number(exp))) {
+			if (this._getVar(exp) == undefined) {
+				throw 'Variable "' + exp +'" no reconocida';
+			} else {
+				exp = this._getVar(exp);
+			}
+		}
+
 		// Reducción final de operadores
 		exp = this._operatorsReduction(exp);
 
