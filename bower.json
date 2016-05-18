@@ -1,0 +1,27 @@
+{
+  "name": "Calc.js",
+  "homepage": "https://github.com/VoyagerCodes/Calc.js",
+  "authors": [
+    "Luis Aguilar <aguilar.copan@gmail.com>"
+  ],
+  "description": "Standalone form validator for javascript",
+  "main": [
+    "./dist/Calc.js",
+    "./dist/Calc.min.js"
+  ],
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "form",
+    "validator",
+    "validate",
+    "javascript",
+    "js"
+  ],
+  "license": "MIT",
+  "repository": "git@github.com:VoyagerCodes/Calc.js.git",
+  "devDependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
