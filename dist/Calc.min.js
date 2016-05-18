@@ -1,6 +1,6 @@
 /*!
  * Calc.js
- * Version: 1.0.0
+ * Version: 1.0.1
  * Copyright (c) 2016 Luis Aguilar
  * https://github.com/VoyagerCodes/Calc.js
  */
