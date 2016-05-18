@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Calc.js</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no">
+		<link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+		<script src="../dist/Calc.js"></script>
+		<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+	</head>
+	<body>
+		<div style="margin-top: 20px;" class="container">
+			<div style="margin-bottom: 60px;" class="text-center">
+				<h1>VoyagerCodes / Calc.js</h1>
+				<p>Calculadora científica orientada a objetos.</p>
+			</div>
+			<div style="padding-bottom: 20px;" class="row">
+				<div class="col-xs-12">
+					<h3>Calculadora científica</h3>
+					<form id="form">
+						<div class="form-group">
+							<input id="inp-expresion" type="text" class="form-control" placeholder="Ingresa una expresión aritmética">
+						</div>
+						<button type="submit" class="btn btn-primary">Resolver</button>
+					</form>
+					<div id="error" style="margin-top: 10px; display: none;" class="alert alert-danger" role="alert"></div>
+					<div id="success" style="margin-top: 10px; display: none;" class="alert alert-success" role="success"></div>
+				</div>
+			</div>
+		</div>
+		<script>
+
+			// Instancia de la calculadora
+			var calculator = new Calc();
+			calculator.debug = true;
+
+			// Botón para resolver la expresión
+			$('#form').on('submit', function(evt) {
+
+				// Resuelve la expresión
+				console.clear();
+				var result = calculator.solve($('#inp-expresion').val());
+
+				// Muestra el resultado o el error
+				$('#success').hide();
+				$('#error').hide();
+				if (result !== false) {
+					$('#success').slideUp('fast', function() {
+						$(this).html('<strong>Resultado: </strong>' + result).slideDown('fast');
+					});
+				} else {
+					$('#error').slideUp('fast', function() {
+						$(this).html('<strong>Error! </strong>' + calculator.error.message).slideDown('fast');
+					});
+				}
+
+				evt.preventDefault();
+			});
+		</script>
+	</body>
+</html>
