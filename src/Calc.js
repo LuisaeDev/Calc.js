@@ -72,7 +72,7 @@
 
 		} catch(e) {
 
-			this.error = { cod: 'execution-error', desc: e };
+			this.error = { code: 'execution-error', message: e };
 			this._console( 'execution-error', this.error );
 			return false;
 
@@ -145,7 +145,7 @@
 
 		} catch(e) {
 
-			this.error = {cod:e[0], desc:e[1]};
+			this.error = {code: e[0], message: e[1]};
 			this._console('syntax-error', this.error);
 			return false;
 
